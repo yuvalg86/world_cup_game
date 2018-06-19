@@ -91,16 +91,32 @@ def parse_results(wb, contestents):
 		 	if points > 0:
 		 		contestents[endorian]["correct_x12"] += 1
 	print("here are the current results - after {} games".format(48 - games))
-	print(sorted(contestents.items(), key=lambda x: -x[1]["points"]))
+	contestents_sorted = sorted(contestents.items(), key=lambda x: -x[1]["points"])
+	curr_points = 9999
+	place = 0
+	for player in contestents_sorted:
+		if player[1]["points"] < curr_points:
+			curr_points = player[1]["points"]
+			place +=1
+		print("in the {} place:{}".format(place, player))
+
+
 	print("we have {} games left, which are {} + 20 points!".format(games,games*4))
+
+def fillMundialWinner(contestents,wb):
+	winner_place = "K3"	
+	for endorian in contestents:
+		winner_value = wb[endorian][winner_place].value
+		contestents[endorian]["winner"] = winner_value
 
 def main():
 	wb = load_workbook(filename = 'play.xlsx')
 	sheets = wb.sheetnames
-	contestents = {x:{"points":0 , "correct_x12": 0} for x in sheets if x!= RESULTS}
+	contestents = {x:{"points":0 , "correct_x12": 0, "winner": None} for x in sheets if x!= RESULTS}
+	fillMundialWinner(contestents, wb)
 	parse_results(wb,contestents)
 	print("today's games:")
-	show_prediction_for_games(wb,[9,10,11], contestents)
+	show_prediction_for_games(wb,[18,19,20], contestents)
 
 if __name__ == "__main__":
     main()
