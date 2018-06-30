@@ -116,7 +116,7 @@ def main():
 	fillMundialWinner(contestents, wb)
 	parse_results(wb,contestents)
 	print("today's games:")
-	show_prediction_for_games(wb,[18,19,20], contestents)
+	show_prediction_for_games(wb,[], contestents)
 
 if __name__ == "__main__":
     main()
